@@ -19,12 +19,14 @@ URL:		https://github.com/bear/parsedatetime
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.713
 %if %{with python2}
-BuildRequires:	python-devel
+BuildRequires:	python-modules
 BuildRequires:	python-setuptools
+BuildRequires:	python-test
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel
+BuildRequires:	python3-modules
 BuildRequires:	python3-setuptools
+BuildRequires:	python3-test
 %endif
 %if %{with doc}
 BuildRequires:	epydoc
