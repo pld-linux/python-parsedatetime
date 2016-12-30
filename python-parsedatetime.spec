@@ -8,25 +8,30 @@
 %define 	module	parsedatetime
 Summary:	Parse human-readable date/time strings in Python
 Name:		python-%{module}
-Version:	1.5
-Release:	2
+Version:	2.1
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 Source0:	https://github.com/bear/%{module}/archive/v%{version}/%{module}-%{version}.tar.gz
-# Source0-md5:	f7b6b8258728ca9aa2ef536b3f221baf
-Patch0:		fix-non-executable-script-init.patch
+# Source0-md5:	9054ba8585a94fb68f29d47c14536cc5
 URL:		https://github.com/bear/parsedatetime
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.713
 %if %{with python2}
 BuildRequires:	python-modules
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-pyicu
 BuildRequires:	python-test
+%endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-modules
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-pyicu
 BuildRequires:	python3-test
+%endif
 %endif
 %if %{with doc}
 BuildRequires:	epydoc
@@ -56,20 +61,14 @@ date/time strings.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
-
-# Fixes spurious-executable-perm warning
-chmod 644 implementation_notes.txt
 
 %build
 %if %{with python2}
-%py_build
-%{?with_tests:%{__python} run_tests.py}
+%py_build %{?with_tests:test}
 %endif
 
 %if %{with python3}
-%py3_build
-%{?with_tests:%{__python3} run_tests.py test}
+%py3_build %{?with_tests:test}
 %endif
 
 %if %{with doc}
@@ -81,14 +80,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with python2}
 %py_install
-rm -r $RPM_BUILD_ROOT%{py_sitescriptdir}/%{module}/tests
 
 %py_postclean
 %endif
 
 %if %{with python3}
 %py3_install
-rm -r $RPM_BUILD_ROOT%{py3_sitescriptdir}/%{module}/tests
 %endif
 
 %clean
@@ -97,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE.txt
-%doc AUTHORS.txt CHANGES.txt INSTALL.txt README.rst THANKS.txt
+%doc AUTHORS.txt CHANGES.txt README.rst
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{module}-%{version}-*.egg-info
 
@@ -105,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-%{module}
 %defattr(644,root,root,755)
 %doc LICENSE.txt
-%doc AUTHORS.txt CHANGES.txt INSTALL.txt README.rst THANKS.txt
+%doc AUTHORS.txt CHANGES.txt README.rst
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{module}*.egg-info
 %endif
@@ -113,5 +110,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with doc}
 %files doc
 %defattr(644,root,root,755)
-%doc docs/ examples/ implementation_notes.txt locale_date_grouping_notes.txt
+%doc docs/ examples/
 %endif
