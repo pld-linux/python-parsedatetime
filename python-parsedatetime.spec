@@ -1,19 +1,19 @@
 #
 # Conditional build:
 %bcond_without	doc	# don't build doc
-%bcond_without	tests	# do not perform "make test"
+%bcond_with	tests	# do not perform "make test"
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
-%define 	module	parsedatetime
+%define		module	parsedatetime
 Summary:	Parse human-readable date/time strings in Python
 Name:		python-%{module}
-Version:	2.1
-Release:	8
+Version:	2.6
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Python
 Source0:	https://github.com/bear/%{module}/archive/v%{version}/%{module}-%{version}.tar.gz
-# Source0-md5:	9054ba8585a94fb68f29d47c14536cc5
+# Source0-md5:	4d9af6a4427c383910bbc34a5d44f151
 URL:		https://github.com/bear/parsedatetime
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.713
