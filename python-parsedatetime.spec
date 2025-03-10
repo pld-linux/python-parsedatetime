@@ -9,7 +9,7 @@
 Summary:	Parse human-readable date/time strings in Python
 Name:		python-%{module}
 Version:	2.6
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries/Python
 Source0:	https://github.com/bear/%{module}/archive/v%{version}/%{module}-%{version}.tar.gz
